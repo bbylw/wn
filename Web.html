@@ -1,0 +1,285 @@
+
+<html><head><base href="https://websim.io/"><title>WebSim Skills Navigation</title><style>
+:root {
+  --primary-color: #6200ee;
+  --secondary-color: #03dac6;
+  --background-color: #e0e5ec;
+  --surface-color: #e0e5ec;
+  --on-surface-color: #1d1d1d;
+  --on-primary-color: #ffffff;
+  --neumorphic-light: #ffffff;
+  --neumorphic-dark: #a3b1c6;
+  --purple-overlay: rgba(98, 0, 238, 0.2);
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--background-color);
+  color: var(--on-surface-color);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background-color: var(--surface-color);
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.site-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--on-surface-color);
+  margin: 0;
+  text-align: center;
+}
+
+.dark-mode-toggle {
+  background-color: var(--surface-color);
+  color: var(--on-surface-color);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 
+    3px 3px 6px var(--neumorphic-dark),
+    -3px -3px 6px var(--neumorphic-light);
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.dark-mode-toggle:hover {
+  box-shadow: 
+    2px 2px 4px var(--neumorphic-dark),
+    -2px -2px 4px var(--neumorphic-light);
+}
+
+main {
+  flex-grow: 1;
+  padding: 40px;
+}
+
+section {
+  margin-bottom: 60px;
+}
+
+h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: var(--primary-color);
+}
+
+footer {
+  background-color: var(--surface-color);
+  color: var(--on-surface-color);
+  text-align: center;
+  padding: 20px;
+  margin-top: auto;
+}
+
+body.dark-mode {
+  --background-color: #1a1a1a;
+  --surface-color: #2a2a2a;
+  --on-surface-color: #ffffff;
+  --neumorphic-light: #3a3a3a;
+  --neumorphic-dark: #151515;
+}
+
+.popular-sites {
+  margin-top: 40px;
+}
+
+.popular-sites h3 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: var(--primary-color);
+}
+
+.site-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;
+}
+
+.site-card {
+  background-color: var(--surface-color);
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 
+    3px 3px 6px var(--neumorphic-dark),
+    -3px -3px 6px var(--neumorphic-light);
+  transition: transform 0.3s ease;
+  text-decoration: none; /* Remove underline from links */
+  display: block; /* Make the entire card clickable */
+}
+
+.site-card:hover {
+  transform: translateY(-5px);
+}
+
+.site-icon {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: var(--primary-color);
+}
+
+.site-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--on-surface-color);
+}
+
+.category-nav {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.category-btn {
+  background-color: var(--surface-color);
+  color: var(--on-surface-color);
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 
+    3px 3px 6px var(--neumorphic-dark),
+    -3px -3px 6px var(--neumorphic-light);
+}
+
+.category-btn:hover, .category-btn.active {
+  background-color: var(--primary-color);
+  color: var(--on-primary-color);
+}
+
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head><body>
+<div class="container">
+  <header>
+    <h1 class="site-title">WebSim Skills</h1>
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+      <i class="fas fa-moon"></i>
+    </button>
+  </header>
+
+  <main>
+    <section id="popular-sites" class="popular-sites">
+      <h3>按类别浏览热门网站</h3>
+      <div class="category-nav" id="categoryNav">
+        <!-- Category buttons will be dynamically added here -->
+      </div>
+      <div class="site-grid" id="siteGrid">
+        <!-- Site cards will be dynamically added here -->
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 WebSim Skills. 保留所有权利。</p>
+  </footer>
+</div>
+
+<script>
+const sitesData = [
+  { name: '谷歌', icon: 'fab fa-google', url: 'https://www.google.com', category: '搜索引擎' },
+  { name: '优兔', icon: 'fab fa-youtube', url: 'https://www.youtube.com', category: '社交媒体' },
+  { name: '脸书', icon: 'fab fa-facebook', url: 'https://www.facebook.com', category: '社交媒体' },
+  { name: '推特', icon: 'fab fa-twitter', url: 'https://www.twitter.com', category: '社交媒体' },
+  { name: '照片墙', icon: 'fab fa-instagram', url: 'https://www.instagram.com', category: '社交媒体' },
+  { name: '百度', icon: 'fas fa-search', url: 'https://www.baidu.com', category: '搜索引擎' },
+  { name: '维基百科', icon: 'fab fa-wikipedia-w', url: 'https://www.wikipedia.org', category: '参考' },
+  { name: 'Yandex', icon: 'fas fa-y', url: 'https://www.yandex.ru', category: '搜索引擎' },
+  { name: '雅虎', icon: 'fab fa-yahoo', url: 'https://www.yahoo.com', category: '搜索引擎' },
+  { name: 'WhatsApp', icon: 'fab fa-whatsapp', url: 'https://www.whatsapp.com', category: '通讯' },
+  // Add more sites here...
+];
+
+function toggleDarkMode() {
+  document.body.classList.toggle('dark-mode');
+  const darkModeToggle = document.querySelector('.dark-mode-toggle i');
+  if (document.body.classList.contains('dark-mode')) {
+    darkModeToggle.classList.remove('fa-moon');
+    darkModeToggle.classList.add('fa-sun');
+  } else {
+    darkModeToggle.classList.remove('fa-sun');
+    darkModeToggle.classList.add('fa-moon');
+  }
+}
+
+function createSiteCard(site) {
+  return `
+    <a href="${site.url}" target="_blank" class="site-card">
+      <div class="site-icon"><i class="${site.icon}"></i></div>
+      <div class="site-name">${site.name}</div>
+    </a>
+  `;
+}
+
+function initializeSiteGrid() {
+  const categories = [...new Set(sitesData.map(site => site.category))];
+  const categoryNav = document.getElementById('categoryNav');
+  const siteGrid = document.getElementById('siteGrid');
+
+  // Create "All" button
+  const allButton = document.createElement('button');
+  allButton.className = 'category-btn active';
+  allButton.textContent = '全部';
+  allButton.addEventListener('click', () => filterSites('全部'));
+  categoryNav.appendChild(allButton);
+
+  // Create category buttons
+  categories.forEach(category => {
+    const button = document.createElement('button');
+    button.className = 'category-btn';
+    button.textContent = category;
+    button.addEventListener('click', () => filterSites(category));
+    categoryNav.appendChild(button);
+  });
+
+  // Initialize with all sites
+  filterSites('全部');
+}
+
+function filterSites(category) {
+  const siteGrid = document.getElementById('siteGrid');
+  const filteredSites = category === '全部' ? sitesData : sitesData.filter(site => site.category === category);
+
+  siteGrid.innerHTML = filteredSites.map(createSiteCard).join('');
+
+  // Update active button
+  document.querySelectorAll('.category-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent === category);
+  });
+}
+
+initializeSiteGrid();
+</script>
+</body></html>
