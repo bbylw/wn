@@ -1,4 +1,7 @@
 # White Navigation Page | 白色导航页
+![](https://cdn.jsdelivr.net/gh/pusvsimg/img@main/Image/20250102110532172.png)
+
+![](https://cdn.jsdelivr.net/gh/pusvsimg/img@main/Image/20250102110609237.png)
 
 [English](#english) | [中文](#chinese)
 
