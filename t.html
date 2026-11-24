@@ -3,16 +3,6 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="light dark">
-<script>
-  // 仅用于避免主题闪烁：在首次绘制前应用已保存的配色偏好。
-  try {
-    var storedScheme = localStorage.getItem('color-scheme');
-    if (storedScheme === 'light' || storedScheme === 'dark') {
-      document.querySelector('meta[name="color-scheme"]').content = storedScheme;
-    }
-  } catch (error) {}
-</script>
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="description" content="WebSim Skills 网站导航：按类别浏览热门网站。">
 <title>WebSim Skills Navigation</title>
@@ -21,64 +11,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <style>
 :root {
-  color-scheme: light dark;
-
-  /* 颜色令牌：分别定义浅色与深色值，并用 light-dark() 自动切换 */
-  --primary-light: #6200ee;
-  --primary-dark: #b388ff;
+  --primary-color: #6200ee;
   --secondary-color: #03dac6;
-  --background-light: #e0e5ec;
-  --background-dark: #1a1a1a;
-  --surface-light: #e0e5ec;
-  --surface-dark: #2a2a2a;
-  --on-surface-light: #1d1d1d;
-  --on-surface-dark: #ffffff;
-  --on-primary-light: #ffffff;
-  --on-primary-dark: #1d1d1d;
-  --neumorphic-light-light: #ffffff;
-  --neumorphic-light-dark: #3a3a3a;
-  --neumorphic-dark-light: #a3b1c6;
-  --neumorphic-dark-dark: #151515;
-
-  /* 回退方案：不支持 light-dark() 的浏览器跟随系统配色 */
-  --primary-color: var(--primary-light);
-  --background-color: var(--background-light);
-  --surface-color: var(--surface-light);
-  --on-surface-color: var(--on-surface-light);
-  --on-primary-color: var(--on-primary-light);
-  --neumorphic-light: var(--neumorphic-light-light);
-  --neumorphic-dark: var(--neumorphic-dark-light);
-
-  @media (prefers-color-scheme: dark) {
-    --primary-color: var(--primary-dark);
-    --background-color: var(--background-dark);
-    --surface-color: var(--surface-dark);
-    --on-surface-color: var(--on-surface-dark);
-    --on-primary-color: var(--on-primary-dark);
-    --neumorphic-light: var(--neumorphic-light-dark);
-    --neumorphic-dark: var(--neumorphic-dark-dark);
-  }
-
-  @supports (color: light-dark(#ffffff, #000000)) {
-    --primary-color: light-dark(var(--primary-light), var(--primary-dark));
-    --background-color: light-dark(var(--background-light), var(--background-dark));
-    --surface-color: light-dark(var(--surface-light), var(--surface-dark));
-    --on-surface-color: light-dark(var(--on-surface-light), var(--on-surface-dark));
-    --on-primary-color: light-dark(var(--on-primary-light), var(--on-primary-dark));
-    --neumorphic-light: light-dark(var(--neumorphic-light-light), var(--neumorphic-light-dark));
-    --neumorphic-dark: light-dark(var(--neumorphic-dark-light), var(--neumorphic-dark-dark));
-  }
-
-  /* 将 <meta name="color-scheme"> 手动覆盖映射回 CSS 色彩方案 */
-  &:has(> head > meta[name="color-scheme"][content="dark"]) {
-    color-scheme: dark;
-  }
-  &:has(> head > meta[name="color-scheme"][content="light"]) {
-    color-scheme: light;
-  }
-
-  accent-color: var(--primary-color);
-  scrollbar-color: light-dark(#6b7280, #9ca3af) light-dark(#e0e5ec, #2a2a2a);
+  --background-color: #e0e5ec;
+  --surface-color: #e0e5ec;
+  --on-surface-color: #1d1d1d;
+  --on-primary-color: #ffffff;
+  --neumorphic-light: #ffffff;
+  --neumorphic-dark: #a3b1c6;
 }
 
 body {
@@ -87,14 +27,7 @@ body {
   color: var(--on-surface-color);
   margin: 0;
   padding: 0;
-  line-height: 1.5;
-  overflow-wrap: break-word;
-}
-
-h1,
-h2,
-h3 {
-  text-wrap: balance;
+  overflow-x: hidden;
 }
 
 .container {
@@ -117,7 +50,7 @@ header {
 }
 
 .site-title {
-  font-size: 1.5rem;
+  font-size: 24px;
   font-weight: bold;
   color: var(--on-surface-color);
   margin: 0;
@@ -131,9 +64,9 @@ header {
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  font-size: 1.25rem;
+  font-size: 20px;
   cursor: pointer;
-  transition: box-shadow 0.3s ease;
+  transition: all 0.3s ease;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -143,39 +76,13 @@ header {
   position: absolute;
   right: 20px;
   top: 50%;
-  translate: 0 -50%;
+  transform: translateY(-50%);
 }
 
 .dark-mode-toggle:hover {
   box-shadow:
     2px 2px 4px var(--neumorphic-dark),
     -2px -2px 4px var(--neumorphic-light);
-}
-
-.dark-mode-toggle .fa-sun {
-  display: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  .dark-mode-toggle .fa-moon {
-    display: none;
-  }
-  .dark-mode-toggle .fa-sun {
-    display: inline-block;
-  }
-}
-
-:root:has(> head > meta[name="color-scheme"][content="light"]) .dark-mode-toggle .fa-moon {
-  display: inline-block;
-}
-:root:has(> head > meta[name="color-scheme"][content="light"]) .dark-mode-toggle .fa-sun {
-  display: none;
-}
-:root:has(> head > meta[name="color-scheme"][content="dark"]) .dark-mode-toggle .fa-moon {
-  display: none;
-}
-:root:has(> head > meta[name="color-scheme"][content="dark"]) .dark-mode-toggle .fa-sun {
-  display: inline-block;
 }
 
 main {
@@ -187,7 +94,13 @@ section {
   margin-bottom: 60px;
 }
 
-.footer {
+h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: var(--primary-color);
+}
+
+footer {
   background-color: var(--surface-color);
   color: var(--on-surface-color);
   text-align: center;
@@ -195,12 +108,20 @@ section {
   margin-top: auto;
 }
 
+body.dark-mode {
+  --background-color: #1a1a1a;
+  --surface-color: #2a2a2a;
+  --on-surface-color: #ffffff;
+  --neumorphic-light: #3a3a3a;
+  --neumorphic-dark: #151515;
+}
+
 .popular-sites {
   margin-top: 40px;
 }
 
-.popular-sites h2 {
-  font-size: 1.5rem;
+.popular-sites h3 {
+  font-size: 24px;
   margin-bottom: 20px;
   color: var(--primary-color);
 }
@@ -209,13 +130,9 @@ section {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 20px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
 }
 
 .site-card {
-  height: 100%;
   background-color: var(--surface-color);
   border-radius: 10px;
   padding: 15px;
@@ -223,22 +140,23 @@ section {
   box-shadow:
     3px 3px 6px var(--neumorphic-dark),
     -3px -3px 6px var(--neumorphic-light);
+  transition: transform 0.3s ease;
   text-decoration: none;
-  color: inherit;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  display: block;
+}
+
+.site-card:hover {
+  transform: translateY(-5px);
 }
 
 .site-icon {
-  font-size: 1.5rem;
+  font-size: 24px;
   margin-bottom: 10px;
   color: var(--primary-color);
 }
 
 .site-name {
-  font-size: 1rem;
+  font-size: 16px;
   font-weight: bold;
   color: var(--on-surface-color);
 }
@@ -257,9 +175,8 @@ section {
   padding: 10px 20px;
   margin: 5px;
   border-radius: 20px;
-  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.3s ease;
   box-shadow:
     3px 3px 6px var(--neumorphic-dark),
     -3px -3px 6px var(--neumorphic-light);
@@ -271,11 +188,7 @@ section {
   color: var(--on-primary-color);
 }
 
-:where(a, button):focus-visible {
-  outline: 3px solid var(--primary-color);
-  outline-offset: 3px;
-}
-
+/* 屏幕阅读器专用文本（不参与布局） */
 .visually-hidden:where(:not(:focus-within, :active)) {
   position: absolute !important;
   clip-path: inset(50%) !important;
@@ -287,29 +200,6 @@ section {
   border: 0 !important;
   white-space: nowrap !important;
 }
-
-/* 仅在用户没有减少动态效果偏好时启用位移动画 */
-@media (prefers-reduced-motion: no-preference) {
-  .site-card {
-    transition: translate 0.3s ease;
-  }
-  .site-card:hover {
-    translate: 0 -5px;
-  }
-}
-
-/* 强制高对比色模式下用边框替代会消失的阴影，保留控件边界 */
-@media (forced-colors: active) {
-  header,
-  .site-card,
-  .category-btn,
-  .dark-mode-toggle {
-    border: 1px solid CanvasText;
-  }
-  :where(a, button):focus-visible {
-    outline: 3px solid Highlight;
-  }
-}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet" crossorigin referrerpolicy="no-referrer">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -318,22 +208,21 @@ section {
 <div class="container">
   <header>
     <h1 class="site-title">WebSim Skills</h1>
-    <button class="dark-mode-toggle" type="button" aria-label="深色模式" aria-pressed="false">
+    <button class="dark-mode-toggle" type="button" aria-label="切换深色模式" aria-pressed="false">
       <i class="fas fa-moon" aria-hidden="true"></i>
-      <i class="fas fa-sun" aria-hidden="true"></i>
     </button>
   </header>
 
   <main>
-    <section class="popular-sites" aria-labelledby="browse-heading">
-      <h2 id="browse-heading">按类别浏览热门网站</h2>
+    <section id="popular-sites" class="popular-sites">
+      <h3>按类别浏览热门网站</h3>
       <div class="category-nav" id="categoryNav" role="group" aria-label="按类别筛选网站"></div>
       <p id="filter-status" class="visually-hidden" role="status" aria-live="polite"></p>
-      <ul class="site-grid" id="siteGrid" role="list"></ul>
+      <div class="site-grid" id="siteGrid"></div>
     </section>
   </main>
 
-  <footer class="footer">
+  <footer>
     <p>&copy; 2023 WebSim Skills. 保留所有权利。</p>
   </footer>
 </div>
@@ -358,8 +247,6 @@ const filterStatus = document.getElementById('filter-status');
 const categoryButtons = [];
 
 function createSiteCard(site) {
-  const item = document.createElement('li');
-
   const link = document.createElement('a');
   link.href = site.url;
   link.target = '_blank';
@@ -379,8 +266,7 @@ function createSiteCard(site) {
   name.textContent = site.name;
 
   link.append(iconWrap, name);
-  item.append(link);
-  return item;
+  return link;
 }
 
 function filterSites(category) {
@@ -420,57 +306,19 @@ function initializeSiteGrid() {
   filterSites('全部');
 }
 
-/* 深色模式：通过 <meta name="color-scheme"> 驱动，CSS 负责配色 */
-const schemeMeta = document.querySelector('meta[name="color-scheme"]');
+/* 深色模式：与原版一致，默认浅色，通过按钮切换 */
 const schemeToggle = document.querySelector('.dark-mode-toggle');
-const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+const schemeIcon = schemeToggle.querySelector('i');
 
-function getStoredScheme() {
-  try {
-    const value = localStorage.getItem('color-scheme');
-    return value === 'light' || value === 'dark' ? value : null;
-  } catch (error) {
-    return null;
-  }
-}
-
-function getResolvedScheme() {
-  return getStoredScheme() ?? (darkQuery.matches ? 'dark' : 'light');
-}
-
-function syncToggleState() {
-  schemeToggle.setAttribute('aria-pressed', String(getResolvedScheme() === 'dark'));
-}
-
-function applyStoredScheme() {
-  schemeMeta.content = getStoredScheme() ?? 'light dark';
-  syncToggleState();
-}
-
-function toggleScheme() {
-  const systemScheme = darkQuery.matches ? 'dark' : 'light';
-  const currentScheme = getResolvedScheme();
-  const nextScheme = currentScheme === 'dark' ? 'light' : 'dark';
-
-  try {
-    if (nextScheme === systemScheme) {
-      localStorage.removeItem('color-scheme');
-    } else {
-      localStorage.setItem('color-scheme', nextScheme);
-    }
-  } catch (error) {}
-
-  applyStoredScheme();
+function toggleDarkMode() {
+  const isDark = document.body.classList.toggle('dark-mode');
+  schemeIcon.classList.toggle('fa-moon', !isDark);
+  schemeIcon.classList.toggle('fa-sun', isDark);
+  schemeToggle.setAttribute('aria-pressed', String(isDark));
 }
 
 initializeSiteGrid();
-
-schemeToggle.addEventListener('click', toggleScheme);
-darkQuery.addEventListener('change', syncToggleState);
-window.addEventListener('storage', (event) => {
-  if (event.key === 'color-scheme') applyStoredScheme();
-});
-applyStoredScheme();
+schemeToggle.addEventListener('click', toggleDarkMode);
 </script>
 </body>
 </html>

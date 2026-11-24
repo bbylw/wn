@@ -3,80 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="light dark">
-<script>
-  // 仅用于避免主题闪烁：在首次绘制前应用已保存的配色偏好。
-  try {
-    var storedScheme = localStorage.getItem('color-scheme');
-    if (storedScheme === 'light' || storedScheme === 'dark') {
-      document.querySelector('meta[name="color-scheme"]').content = storedScheme;
-    }
-  } catch (error) {}
-</script>
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="description" content="简洁优雅的新拟物风格网址导航页，支持实时搜索与深色模式。">
-<title>White navigation page · 白色导航页</title>
+<title>White navigation page</title>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <style>
 :root {
-  color-scheme: light dark;
-
-  /* 颜色令牌：分别定义浅色与深色值，并用 light-dark() 自动切换 */
-  --primary-light: #6200ee;
-  --primary-dark: #b388ff;
+  --primary-color: #6200ee;
   --secondary-color: #03dac6;
-  --background-light: #e0e5ec;
-  --background-dark: #1a1a1a;
-  --surface-light: #e0e5ec;
-  --surface-dark: #2a2a2a;
-  --on-surface-light: #1d1d1d;
-  --on-surface-dark: #ffffff;
+  --background-color: #e0e5ec;
+  --surface-color: #e0e5ec;
+  --on-surface-color: #1d1d1d;
   --on-primary-color: #ffffff;
-  --neumorphic-light-light: #ffffff;
-  --neumorphic-light-dark: #3a3a3a;
-  --neumorphic-dark-light: #a3b1c6;
-  --neumorphic-dark-dark: #151515;
-
-  /* 回退方案：不支持 light-dark() 的浏览器跟随系统配色 */
-  --primary-color: var(--primary-light);
-  --background-color: var(--background-light);
-  --surface-color: var(--surface-light);
-  --on-surface-color: var(--on-surface-light);
-  --neumorphic-light: var(--neumorphic-light-light);
-  --neumorphic-dark: var(--neumorphic-dark-light);
-
-  @media (prefers-color-scheme: dark) {
-    --primary-color: var(--primary-dark);
-    --background-color: var(--background-dark);
-    --surface-color: var(--surface-dark);
-    --on-surface-color: var(--on-surface-dark);
-    --neumorphic-light: var(--neumorphic-light-dark);
-    --neumorphic-dark: var(--neumorphic-dark-dark);
-  }
-
-  @supports (color: light-dark(#ffffff, #000000)) {
-    --primary-color: light-dark(var(--primary-light), var(--primary-dark));
-    --background-color: light-dark(var(--background-light), var(--background-dark));
-    --surface-color: light-dark(var(--surface-light), var(--surface-dark));
-    --on-surface-color: light-dark(var(--on-surface-light), var(--on-surface-dark));
-    --neumorphic-light: light-dark(var(--neumorphic-light-light), var(--neumorphic-light-dark));
-    --neumorphic-dark: light-dark(var(--neumorphic-dark-light), var(--neumorphic-dark-dark));
-  }
-
-  /* 将 <meta name="color-scheme"> 手动覆盖映射回 CSS 色彩方案 */
-  &:has(> head > meta[name="color-scheme"][content="dark"]) {
-    color-scheme: dark;
-  }
-  &:has(> head > meta[name="color-scheme"][content="light"]) {
-    color-scheme: light;
-  }
-
-  accent-color: var(--primary-color);
-  scrollbar-color: light-dark(#6b7280, #9ca3af) light-dark(#e0e5ec, #2a2a2a);
+  --neumorphic-light: #ffffff;
+  --neumorphic-dark: #a3b1c6;
 }
-
 body {
   font-family: 'Roboto', 'Noto Sans SC', sans-serif;
   background-color: var(--background-color);
@@ -89,16 +32,7 @@ body {
   padding: 20px;
   transition: background-color 0.3s, color 0.3s;
   box-sizing: border-box;
-  line-height: 1.5;
-  overflow-wrap: break-word;
 }
-
-h1,
-h2,
-h3 {
-  text-wrap: balance;
-}
-
 .container {
   background-color: var(--surface-color);
   padding: 30px;
@@ -109,9 +43,9 @@ h3 {
   text-align: center;
   max-width: 1200px;
   width: 100%;
+  box-sizing: border-box;
   position: relative;
 }
-
 .grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -120,44 +54,44 @@ h3 {
   padding: 0;
   list-style: none;
 }
-
-.grid-item {
+.grid-container > li {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
+}
+.grid-container > li[hidden] {
+  display: none;
+}
+.grid-item {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
   background-color: var(--surface-color);
   border-radius: 15px;
   padding: 20px;
   text-align: center;
-  text-decoration: none;
-  color: inherit;
-  transition: box-shadow 0.3s ease;
+  transition: all 0.3s ease;
   box-shadow:
     5px 5px 10px var(--neumorphic-dark),
     -5px -5px 10px var(--neumorphic-light);
+  text-decoration: none;
+  color: inherit;
   cursor: pointer;
 }
-
 .grid-item:hover {
+  transform: translateY(-5px);
   box-shadow:
     8px 8px 15px var(--neumorphic-dark),
     -8px -8px 15px var(--neumorphic-light);
 }
-
 .icon {
-  font-size: 2rem;
+  font-size: 32px;
   margin-bottom: 15px;
   color: var(--primary-color);
 }
-
 h3 {
   margin: 0;
-  font-size: 1rem;
+  font-size: 16px;
   color: var(--on-surface-color);
 }
-
 .dark-mode-toggle {
   position: fixed;
   top: 20px;
@@ -168,9 +102,9 @@ h3 {
   border-radius: 50%;
   width: 60px;
   height: 60px;
-  font-size: 1.5rem;
+  font-size: 24px;
   cursor: pointer;
-  transition: box-shadow 0.3s ease;
+  transition: all 0.3s ease;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -179,50 +113,27 @@ h3 {
     -5px -5px 10px var(--neumorphic-light);
   z-index: 1000;
 }
-
 .dark-mode-toggle:hover {
   box-shadow:
     2px 2px 5px var(--neumorphic-dark),
     -2px -2px 5px var(--neumorphic-light);
 }
-
 .dark-mode-toggle:active {
   box-shadow:
     inset 2px 2px 5px var(--neumorphic-dark),
     inset -2px -2px 5px var(--neumorphic-light);
 }
-
-/* 根据当前色彩方案显示对应的模式图标 */
-.dark-mode-toggle .fa-sun {
-  display: none;
+body.dark-mode {
+  --background-color: #1a1a1a;
+  --surface-color: #2a2a2a;
+  --on-surface-color: #ffffff;
+  --neumorphic-light: #3a3a3a;
+  --neumorphic-dark: #151515;
 }
-
-@media (prefers-color-scheme: dark) {
-  .dark-mode-toggle .fa-moon {
-    display: none;
-  }
-  .dark-mode-toggle .fa-sun {
-    display: inline-block;
-  }
-}
-
-:root:has(> head > meta[name="color-scheme"][content="light"]) .dark-mode-toggle .fa-moon {
-  display: inline-block;
-}
-:root:has(> head > meta[name="color-scheme"][content="light"]) .dark-mode-toggle .fa-sun {
-  display: none;
-}
-:root:has(> head > meta[name="color-scheme"][content="dark"]) .dark-mode-toggle .fa-moon {
-  display: none;
-}
-:root:has(> head > meta[name="color-scheme"][content="dark"]) .dark-mode-toggle .fa-sun {
-  display: inline-block;
-}
-
 .search-container {
+  display: block;
   margin-bottom: 30px;
 }
-
 .search-input {
   width: 70%;
   padding: 12px 20px;
@@ -232,39 +143,26 @@ h3 {
   border-radius: 25px;
   background-color: var(--surface-color);
   color: var(--on-surface-color);
-  font-size: 1rem;
+  font-size: 16px;
   box-shadow:
     inset 5px 5px 10px var(--neumorphic-dark),
     inset -5px -5px 10px var(--neumorphic-light);
-  transition: box-shadow 0.3s ease;
+  transition: all 0.3s ease;
 }
-
 .search-input:focus {
   outline: none;
   box-shadow:
     inset 8px 8px 15px var(--neumorphic-dark),
     inset -8px -8px 15px var(--neumorphic-light);
 }
-
 .category-title {
-  font-size: 1.5rem;
+  font-size: 24px;
   margin-top: 40px;
   margin-bottom: 20px;
   color: var(--primary-color);
   text-align: left;
 }
-
-/* 仅对键盘用户显示清晰的焦点环（对比度 >= 3:1） */
-:where(a, button, input):focus-visible {
-  outline: 3px solid var(--primary-color);
-  outline-offset: 3px;
-}
-
-.search-input:focus-visible {
-  outline-offset: 2px;
-}
-
-/* 屏幕阅读器专用文本 */
+/* 屏幕阅读器专用文本（不参与布局） */
 .visually-hidden:where(:not(:focus-within, :active)) {
   position: absolute !important;
   clip-path: inset(50%) !important;
@@ -276,71 +174,13 @@ h3 {
   border: 0 !important;
   white-space: nowrap !important;
 }
-
-.skip-link {
-  position: absolute;
-  inset-block-start: 0.5rem;
-  inset-inline-start: 0.5rem;
-  z-index: 2000;
-  padding: 0.75rem 1rem;
-  border-radius: 0.75rem;
-  background-color: var(--surface-color);
-  color: var(--on-surface-color);
-  font-weight: 700;
-  text-decoration: none;
-  translate: 0 -200%;
-  box-shadow:
-    3px 3px 6px var(--neumorphic-dark),
-    -3px -3px 6px var(--neumorphic-light);
-}
-
-.skip-link:focus-visible {
-  translate: 0 0;
-}
-
-main:focus-visible {
-  outline: 3px solid var(--primary-color);
-  outline-offset: 8px;
-  border-radius: 20px;
-}
-
-/* 仅在用户没有减少动态效果偏好时启用位移动画 */
-@media (prefers-reduced-motion: no-preference) {
-  .grid-item {
-    transition: box-shadow 0.3s ease, translate 0.3s ease, scale 0.15s ease;
-  }
-  .grid-item:hover {
-    translate: 0 -5px;
-  }
-  .grid-item:active {
-    scale: 0.98;
-  }
-  .skip-link {
-    transition: translate 0.2s ease;
-  }
-}
-
-/* 强制高对比色模式下用边框替代会消失的阴影，保留控件边界 */
-@media (forced-colors: active) {
-  .container,
-  .grid-item,
-  .dark-mode-toggle,
-  .search-input {
-    border: 1px solid CanvasText;
-  }
-  :where(a, button, input):focus-visible {
-    outline: 3px solid Highlight;
-  }
-}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet" crossorigin referrerpolicy="no-referrer">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer">
 </head>
 <body>
-<a class="skip-link" href="#content">跳到主要内容</a>
-<button class="dark-mode-toggle" type="button" aria-label="深色模式" aria-pressed="false">
+<button class="dark-mode-toggle" type="button" aria-label="切换深色模式" aria-pressed="false">
   <i class="fas fa-moon" aria-hidden="true"></i>
-  <i class="fas fa-sun" aria-hidden="true"></i>
 </button>
 <div class="container">
   <header>
@@ -348,11 +188,11 @@ main:focus-visible {
   </header>
   <search class="search-container">
     <label class="visually-hidden" for="site-search">搜索网站</label>
-    <input type="search" id="site-search" class="search-input" placeholder="搜索..." autocomplete="off" spellcheck="false">
+    <input type="text" id="site-search" class="search-input" placeholder="搜索..." autocomplete="off" spellcheck="false">
   </search>
   <p id="search-status" class="visually-hidden" role="status" aria-live="polite"></p>
 
-  <main id="content" tabindex="-1">
+  <main>
     <section>
       <h2 class="category-title">搜索引擎和社交媒体</h2>
       <ul class="grid-container" id="searchSocialContainer" role="list"></ul>
@@ -483,11 +323,11 @@ const searchStatus = document.getElementById('search-status');
 let gridItems = [];
 
 function filterItems() {
-  const query = searchInput.value.trim().toLocaleLowerCase('zh-CN');
+  const query = searchInput.value.trim().toUpperCase();
   let matches = 0;
 
   for (const item of gridItems) {
-    const isMatch = item.textContent.toLocaleLowerCase('zh-CN').includes(query);
+    const isMatch = item.textContent.toUpperCase().includes(query);
     item.hidden = !isMatch;
     if (isMatch) matches++;
   }
@@ -502,59 +342,20 @@ function initSearch() {
   searchInput.addEventListener('input', filterItems);
 }
 
-/* 深色模式：通过 <meta name="color-scheme"> 驱动，CSS 负责配色 */
-const schemeMeta = document.querySelector('meta[name="color-scheme"]');
+/* 深色模式：与原版一致，默认浅色，通过按钮切换 */
 const schemeToggle = document.querySelector('.dark-mode-toggle');
-const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+const schemeIcon = schemeToggle.querySelector('i');
 
-function getStoredScheme() {
-  try {
-    const value = localStorage.getItem('color-scheme');
-    return value === 'light' || value === 'dark' ? value : null;
-  } catch (error) {
-    return null;
-  }
-}
-
-function getResolvedScheme() {
-  return getStoredScheme() ?? (darkQuery.matches ? 'dark' : 'light');
-}
-
-function syncToggleState() {
-  const isDark = getResolvedScheme() === 'dark';
+function toggleDarkMode() {
+  const isDark = document.body.classList.toggle('dark-mode');
+  schemeIcon.classList.toggle('fa-moon', !isDark);
+  schemeIcon.classList.toggle('fa-sun', isDark);
   schemeToggle.setAttribute('aria-pressed', String(isDark));
-}
-
-function applyStoredScheme() {
-  schemeMeta.content = getStoredScheme() ?? 'light dark';
-  syncToggleState();
-}
-
-function toggleScheme() {
-  const systemScheme = darkQuery.matches ? 'dark' : 'light';
-  const currentScheme = getResolvedScheme();
-  const nextScheme = currentScheme === 'dark' ? 'light' : 'dark';
-
-  try {
-    if (nextScheme === systemScheme) {
-      localStorage.removeItem('color-scheme');
-    } else {
-      localStorage.setItem('color-scheme', nextScheme);
-    }
-  } catch (error) {}
-
-  applyStoredScheme();
 }
 
 populateGrid();
 initSearch();
-
-schemeToggle.addEventListener('click', toggleScheme);
-darkQuery.addEventListener('change', syncToggleState);
-window.addEventListener('storage', (event) => {
-  if (event.key === 'color-scheme') applyStoredScheme();
-});
-applyStoredScheme();
+schemeToggle.addEventListener('click', toggleDarkMode);
 </script>
 </body>
 </html>

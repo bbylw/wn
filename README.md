@@ -18,7 +18,7 @@ A clean and elegant website navigation page with Neumorphism design.
 - 🌓 Dark/Light Mode Toggle
 - 🔍 Real-time Search
 - 📱 Responsive Layout
-- ♿ Accessible by Design (keyboard navigation, screen reader support, reduced motion)
+- ♿ Accessible by Design (keyboard navigation, screen reader support)
 - 🗂️ Categorized Display
   - Search Engines & Social Media
   - E-commerce & Shopping
@@ -29,7 +29,7 @@ A clean and elegant website navigation page with Neumorphism design.
 ### Tech Stack
 
 - HTML5
-- CSS3 (System-aware theming with `light-dark()` color tokens)
+- CSS3
 - JavaScript (Vanilla JS, no framework needed)
 - Font Awesome Icons
 - Google Fonts
@@ -37,18 +37,15 @@ A clean and elegant website navigation page with Neumorphism design.
 
 ### Modern Web Guidance
 
-This project has been audited and optimized against [Modern Web Guidance](https://github.com/GoogleChrome/modern-web-guidance), Google Chrome's set of skills that embeds web platform expertise, best practices, and browser compatibility data directly into coding agents.
+This project has been audited and optimized against [Modern Web Guidance](https://github.com/GoogleChrome/modern-web-guidance), Google Chrome's set of skills that embeds web platform expertise, best practices, and browser compatibility data directly into coding agents. The visual design and interactions are intentionally left unchanged.
 
 Applied guidance includes:
 
-- **Accessibility**: semantic landmarks, real links and lists, accessible labels, skip link, visible focus rings, `aria-live` search results, and `aria-pressed` filter buttons
+- **Accessibility**: semantic landmarks, real links and lists, accessible labels, `aria-live` search results, and `aria-pressed` toggle buttons
 - **HTML**: `<!DOCTYPE html>`, `lang`, charset, viewport, and native `<search>` / `<footer>` elements
-- **CSS**: `light-dark()` color tokens, logical properties, `text-wrap: balance`, `scrollbar-color`, and `forced-colors` support
-- **Dark mode**: `<meta name="color-scheme">` driven by system preference with a persisted manual override
-- **Color & icons**: WCAG AA contrast for text, icons, and focus indicators
-- **Motion**: honors `prefers-reduced-motion` and animates only `translate` / `scale`
+- **Dark mode**: unchanged manual light/dark toggle
 - **Secure external resources**: Subresource Integrity (SRI), `crossorigin`, `referrerpolicy`, and `rel="noopener noreferrer"`
-- **Performance**: DocumentFragment rendering and progressive enhancement without JavaScript
+- **Performance**: DocumentFragment rendering to avoid layout thrash during initial render
 
 Run the same checks locally:
 
@@ -175,19 +172,24 @@ Find the `websites` array in `index.html` and add new websites in this format:
 
 #### Modifying Styles
 
-Color tokens are defined in the `:root` selector with separate light and dark values, then combined via `light-dark()`:
+Color tokens are defined in the `:root` selector, and the dark theme overrides them on `body.dark-mode`:
 
 ```css
 :root {
-  --primary-light: #6200ee;
-  --primary-dark: #b388ff;
-  --background-light: #e0e5ec;
-  --background-dark: #1a1a1a;
+  --primary-color: #6200ee;
+  --background-color: #e0e5ec;
+  --surface-color: #e0e5ec;
+  /* other tokens... */
+}
+
+body.dark-mode {
+  --background-color: #1a1a1a;
+  --surface-color: #2a2a2a;
   /* other tokens... */
 }
 ```
 
-The active color scheme follows the system preference and can be overridden by the theme toggle, which updates `<meta name="color-scheme">`.
+The page loads in the light theme by default; the theme toggle switches to dark by adding the `dark-mode` class to `<body>`.
 
 ### Contributing
 
@@ -209,7 +211,7 @@ This project is licensed under the MIT License.
 - 🌓 深色/浅色模式切换
 - 🔍 实时搜索功能
 - 📱 响应式布局
-- ♿ 无障碍支持（键盘导航、屏幕阅读器、减少动效）
+- ♿ 无障碍支持（键盘导航、屏幕阅读器）
 - 🗂️ 分类展示
   - 搜索引擎和社交媒体
   - 电子商务和购物
@@ -220,7 +222,7 @@ This project is licensed under the MIT License.
 ### 技术栈
 
 - HTML5
-- CSS3 (使用 `light-dark()` 颜色令牌实现跟随系统的主题)
+- CSS3
 - JavaScript (原生JS，无需框架)
 - Font Awesome 图标
 - Google Fonts
@@ -228,18 +230,15 @@ This project is licensed under the MIT License.
 
 ### Modern Web Guidance
 
-本项目已按照 [Modern Web Guidance](https://github.com/GoogleChrome/modern-web-guidance) 完成审查与优化。该指南由 Google Chrome 团队维护，将 Web 平台专业知识、最佳实践与浏览器兼容性数据直接注入编码智能体。
+本项目已按照 [Modern Web Guidance](https://github.com/GoogleChrome/modern-web-guidance) 完成审查与优化。该指南由 Google Chrome 团队维护，将 Web 平台专业知识、最佳实践与浏览器兼容性数据直接注入编码智能体。页面视觉与交互保持不变。
 
 已应用的指南包括：
 
-- **无障碍**：语义化地标、真实链接与列表、可访问标签、跳转主内容链接、可见焦点环、`aria-live` 搜索结果与 `aria-pressed` 筛选按钮
+- **无障碍**：语义化地标、真实链接与列表、可访问标签、`aria-live` 搜索结果与 `aria-pressed` 切换按钮
 - **HTML**：`<!DOCTYPE html>`、`lang`、charset、viewport，以及原生 `<search>` / `<footer>` 元素
-- **CSS**：`light-dark()` 颜色令牌、逻辑属性、`text-wrap: balance`、`scrollbar-color` 与 `forced-colors` 支持
-- **深色模式**：由 `<meta name="color-scheme">` 驱动，跟随系统偏好并支持持久化的手动覆盖
-- **颜色与图标**：文字、图标与焦点指示器满足 WCAG AA 对比度
-- **动效**：遵循 `prefers-reduced-motion`，仅对 `translate` / `scale` 做动画
+- **深色模式**：保持原有的手动深色/浅色切换
 - **外部资源安全**：Subresource Integrity (SRI)、`crossorigin`、`referrerpolicy` 与 `rel="noopener noreferrer"`
-- **性能**：使用 DocumentFragment 渲染，并在禁用 JavaScript 时保持渐进增强
+- **性能**：使用 DocumentFragment 渲染，避免初次渲染时的布局抖动
 
 本地运行同样的检查：
 
@@ -366,19 +365,24 @@ npx http-server
 
 #### 修改样式
 
-颜色令牌在 `:root` 选择器中分别定义浅色与深色值，再通过 `light-dark()` 组合：
+颜色令牌在 `:root` 选择器中定义，深色主题则在 `body.dark-mode` 上覆盖：
 
 ```css
 :root {
-  --primary-light: #6200ee;
-  --primary-dark: #b388ff;
-  --background-light: #e0e5ec;
-  --background-dark: #1a1a1a;
+  --primary-color: #6200ee;
+  --background-color: #e0e5ec;
+  --surface-color: #e0e5ec;
+  /* 其他令牌... */
+}
+
+body.dark-mode {
+  --background-color: #1a1a1a;
+  --surface-color: #2a2a2a;
   /* 其他令牌... */
 }
 ```
 
-当前配色跟随系统偏好，也可通过主题切换按钮覆盖；按钮会同步更新 `<meta name="color-scheme">`。
+页面默认使用浅色主题；主题切换按钮通过为 `<body>` 添加 `dark-mode` 类切换到深色。
 
 ### 贡献
 
